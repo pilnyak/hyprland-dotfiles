@@ -1,0 +1,6 @@
+[Unit]
+Description=Start hyprsunset
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c 'pgrep hyprsunset || /usr/bin/hyprsunset -t 4500 &'
