@@ -47,7 +47,7 @@
     "modules": ["pulseaudio", "pulseaudio/slider"]
   },
   "custom/arch": {
-    "format": "󰣇  btw",
+    "format": "󰣇",
     "tooltip": false,
     "on-click": "alacritty",
     "on-click-right": ""
@@ -55,20 +55,20 @@
   "hyprland/workspaces": {
     "format": "{icon}",
     "format-icons": {
-      "1": "一",
-      "2": "二",
-      "3": "三",
-      "4": "四",
-      "5": "五",
-      "6": "六",
-      "7": "七",
-      "8": "八",
-      "9": "九",
-      "10": "十",
-      "default": "◯",
-      "special": "特別",
-      "empty": "◯",
-      "urgent": "緊急"
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "10",
+      "default": "○",
+      "special": "★",
+      "empty": "○",
+      "urgent": "!"
     },
     "sort-by": "number",
     "all-outputs": false,
@@ -102,8 +102,6 @@
       "chrome": "",
       "vlc": "󰕼"
     },
-    "return-type": "json",
-    "interval": 1,
     "on-click": "playerctl play-pause",
     "on-click-right": "playerctl next",
     "on-click-middle": "playerctl previous",
@@ -278,6 +276,7 @@
       "plugordie": 5
     },
     "format": "{icon}",
+    "format-alt": "{icon}  <span size='10pt' rise='5000'> {capacity}%</span>",
     "format-icons": [
       "<span size='15pt' font='Material Symbols Outlined'>battery_android_0</span>",
       "<span size='15pt' font='Material Symbols Outlined'>battery_android_1</span>",

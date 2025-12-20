@@ -1,0 +1,42 @@
+# ncmpcpp configuration
+
+# Connection
+mpd_host = "127.0.0.1"
+mpd_port = 6600
+
+# Visualizer
+visualizer_data_source = "/tmp/mpd.fifo"
+visualizer_output_name = "Visualizer"
+visualizer_in_stereo = "yes"
+visualizer_type = "spectrum"
+visualizer_look = "●▮"
+
+# UI
+user_interface = "alternative"
+playlist_display_mode = "columns"
+browser_display_mode = "columns"
+search_engine_display_mode = "columns"
+playlist_editor_display_mode = "columns"
+
+# Progress bar
+progressbar_look = "━━─"
+
+# Colors (adapts well to most themes)
+colors_enabled = "yes"
+main_window_color = "white"
+header_window_color = "cyan"
+volume_color = "green"
+statusbar_color = "white"
+progressbar_color = "cyan"
+progressbar_elapsed_color = "white"
+
+# Format
+song_list_format = "{$5%a$9} {$2%t$9} $R {$7%b$9} {$8%l$9}"
+song_status_format = "{%a - %t} | {%b}"
+song_window_title_format = "{%a - %t}"
+
+# Other
+startup_screen = "playlist"
+mouse_support = "yes"
+display_bitrate = "yes"
+external_editor = "nvim"

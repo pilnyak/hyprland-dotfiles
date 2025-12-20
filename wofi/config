@@ -3,6 +3,7 @@ height=400
 location=center
 show=drun
 prompt=Applications
+term=alacritty
 filter_rate=100
 allow_markup=true
 no_actions=true

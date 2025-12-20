@@ -42,6 +42,9 @@ main() {
 
     # Run theme sync (waybar auto-reloads via reload_style_on_change)
     "$SCRIPT_DIR/theme-sync.sh" 2>/dev/null
+
+    # Reset the timer so next rotation is 30min from now
+    systemctl --user restart wallpaper-rotate.timer 2>/dev/null || true
 }
 
 main "$@"

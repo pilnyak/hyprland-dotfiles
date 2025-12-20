@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=ncmpcpp
+Icon=library-music
+Comment=NCurses Music Player Client
+Terminal=false
+Exec=alacritty -e ncmpcpp
+Type=Application
+Categories=Audio;Music;Player
+Keywords=Music;MPD;Player;Audio
