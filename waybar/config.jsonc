@@ -14,8 +14,6 @@
     // "bluetooth",
     "pulseaudio#microphone",
     "group/audio",
-    "group/brightness",
-    "battery",
     "custom/power",
     "custom/notification"
   ],
