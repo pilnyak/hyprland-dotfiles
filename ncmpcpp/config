@@ -40,3 +40,4 @@ startup_screen = "playlist"
 mouse_support = "yes"
 display_bitrate = "yes"
 external_editor = "nvim"
+
