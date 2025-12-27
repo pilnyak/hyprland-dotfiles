@@ -108,7 +108,7 @@
     "artist-len": 25
   },
   "tray": {
-    "icon-size": 14,
+    "icon-size": 18,
     "spacing": 8,
     "reverse-direction": true
   },
