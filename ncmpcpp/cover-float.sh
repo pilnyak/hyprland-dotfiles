@@ -82,6 +82,7 @@ update_cover() {
     local cover
     cover=$(get_cover)
     if [[ -n "$cover" ]]; then
+        CURRENT_COVER="$cover"
         cp "$cover" "$COVER_PATH"
         return 0
     fi
@@ -89,6 +90,7 @@ update_cover() {
     # Fallback: random wallpaper crop
     cover=$(generate_fallback)
     if [[ -n "$cover" ]]; then
+        CURRENT_COVER="fallback"
         cp "$cover" "$COVER_PATH"
         return 0
     fi
@@ -98,6 +100,7 @@ update_cover() {
 
 # Initial cover
 update_cover || exit 1
+LAST_COVER="$CURRENT_COVER"
 
 # Start imv
 imv "$COVER_PATH" &
@@ -106,8 +109,9 @@ IMV_PID=$!
 # Watch for changes
 while kill -0 $IMV_PID 2>/dev/null; do
     mpc idle player >/dev/null 2>&1 || break
-    if update_cover; then
-        # Kill and restart imv to show new cover
+    if update_cover && [[ "$CURRENT_COVER" != "$LAST_COVER" ]]; then
+        # Cover changed - restart imv
+        LAST_COVER="$CURRENT_COVER"
         kill $IMV_PID 2>/dev/null
         imv "$COVER_PATH" &
         IMV_PID=$!
