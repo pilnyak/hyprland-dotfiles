@@ -2,6 +2,10 @@
 # Floating cover art viewer for MPD
 # Copies cover to fixed path, restarts imv on change
 
+# Only one instance allowed
+exec 9>/tmp/cover-float.lock
+flock -n 9 || exit 0
+
 MUSIC_DIR="/mnt/AJI/Music"
 COVER_PATH="/tmp/mpd_cover_current.jpg"
 WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
