@@ -101,6 +101,7 @@ update_cover() {
 # Initial cover
 update_cover || exit 1
 LAST_COVER="$CURRENT_COVER"
+LAST_SONG="$(mpc current -f %file%)"
 
 # Start imv
 imv "$COVER_PATH" &
@@ -109,6 +110,12 @@ IMV_PID=$!
 # Watch for changes
 while kill -0 $IMV_PID 2>/dev/null; do
     mpc idle player >/dev/null 2>&1 || break
+
+    # Only check cover if song actually changed
+    current_song="$(mpc current -f %file%)"
+    [[ "$current_song" == "$LAST_SONG" ]] && continue
+    LAST_SONG="$current_song"
+
     if update_cover && [[ "$CURRENT_COVER" != "$LAST_COVER" ]]; then
         # Cover changed - restart imv
         LAST_COVER="$CURRENT_COVER"
