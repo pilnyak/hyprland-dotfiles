@@ -169,26 +169,53 @@ execute_gtk_theme_update() {
 
 execute_wallust_generation() {
     local -r wallpaper="$1"
-    
+
     log_debug "Executing wallust theme generation"
-    
+
     # Verify wallpaper accessibility
     if [[ ! -r "$wallpaper" ]]; then
         die "Wallpaper file not readable: $wallpaper"
     fi
-    
+
     # Get absolute path for wallust
     local abs_wallpaper
     abs_wallpaper=$(realpath "$wallpaper" 2>/dev/null) || die "Failed to resolve absolute path for: $wallpaper"
-    
+
     log_debug "Using absolute wallpaper path: $abs_wallpaper"
-    
-    # Run wallust with dynamic threshold
+
+    # Run wallust with dynamic threshold for all templates
     if ! wallust run "$abs_wallpaper" --dynamic-threshold 2>/dev/null; then
         die "Wallust theme generation failed for: $abs_wallpaper"
     fi
-    
+
     log_success "Wallust theme generation completed"
+
+    # Generate waybar colors from top strip of wallpaper for better contrast
+    generate_waybar_colors "$abs_wallpaper"
+}
+
+generate_waybar_colors() {
+    local -r wallpaper="$1"
+    local -r crop_path="/tmp/wallpaper_top_crop.png"
+    local -r waybar_config="$HOME/.config/wallust/waybar-only.toml"
+
+    log_debug "Generating waybar colors from top strip"
+
+    # Crop top 100px of wallpaper (where waybar sits)
+    if ! convert "$wallpaper" -crop x100+0+0 +repage "$crop_path" 2>/dev/null; then
+        log_error "Failed to crop wallpaper for waybar colors, using full image colors"
+        return 0
+    fi
+
+    # Run wallust on cropped image with waybar-only config
+    if ! wallust run "$crop_path" -C "$waybar_config" -s 2>/dev/null; then
+        log_error "Failed to generate waybar colors from crop, using full image colors"
+        rm -f "$crop_path"
+        return 0
+    fi
+
+    rm -f "$crop_path"
+    log_success "Waybar colors generated from top strip"
 }
 
 execute_wofi_color_update() {
