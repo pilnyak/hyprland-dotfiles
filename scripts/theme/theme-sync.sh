@@ -207,15 +207,32 @@ generate_waybar_colors() {
         return 0
     fi
 
-    # Run wallust on cropped image with waybar-only config
-    if ! wallust run "$crop_path" -C "$waybar_config" -s 2>/dev/null; then
+    # Analyze crop luminosity to choose palette
+    local palette="harddark"
+    local luminance
+    luminance=$(convert "$crop_path" -colorspace Gray -format "%[fx:mean*255]" info: 2>/dev/null)
+
+    if [[ -n "$luminance" ]]; then
+        # Light background (>128) needs light text (harddark gives light foreground)
+        # Dark background (<=128) needs dark text (hardlight gives dark foreground)
+        if (( $(echo "$luminance > 128" | bc -l) )); then
+            palette="harddark"
+            log_debug "Light crop (luminance: $luminance) - using harddark palette"
+        else
+            palette="hardlight"
+            log_debug "Dark crop (luminance: $luminance) - using hardlight palette"
+        fi
+    fi
+
+    # Run wallust on cropped image with waybar-only config and dynamic palette
+    if ! wallust run "$crop_path" -C "$waybar_config" -p "$palette" -s 2>/dev/null; then
         log_error "Failed to generate waybar colors from crop, using full image colors"
         rm -f "$crop_path"
         return 0
     fi
 
     rm -f "$crop_path"
-    log_success "Waybar colors generated from top strip"
+    log_success "Waybar colors generated from top strip (palette: $palette)"
 }
 
 execute_wofi_color_update() {
